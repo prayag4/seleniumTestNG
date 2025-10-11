@@ -5,11 +5,13 @@ import java.io.IOException;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
+import org.testng.Reporter;
 
 import utilities.testUtils;
 
 public class Listeners extends testUtils implements ITestListener{
 	public void onTestStart(ITestResult result) {
+		Reporter.log("Test started "+result.getName());
 	    System.out.println("test is started....");
 	  }
 

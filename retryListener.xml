@@ -1,9 +1,9 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
 <suite name="MyTestSuite">
 <listeners>
+<listener class-name="common.RetryListener"></listener>
 <listener class-name="common.Listeners"></listener>
-<listener class-name="org.uncommons.reportng.HTMLReporter"></listener>
-<!-- above for ReportNG plugin -->
+
 </listeners>
     <test name="MyTest">
      <groups>
