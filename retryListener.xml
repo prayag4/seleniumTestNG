@@ -12,9 +12,9 @@
             </run>
      </groups>
         <classes>
-            <!-- <class name="ui.PracticeTest"/> -->
-            <class name="ui.ListenerDemoTest"/>
-            <!-- <class name="ui.CrudTest"/> -->
+            <!-- <class name="testngPractice.PracticeTest"/> -->
+            <class name="testngPractice.ListenerDemoTest"/>
+            <!-- <class name="testngPractice.CrudTest"/> -->
         </classes>
     </test>
 </suite>

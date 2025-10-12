@@ -3,7 +3,7 @@
     <test name="MyTestParameter">
     <parameter name="testVariable" value="testing"></parameter>
         <classes>
-            <class name="ui.ParameterTest"/>
+            <class name="testngPractice.ParameterTest"/>
         </classes>
     </test>
 </suite>
