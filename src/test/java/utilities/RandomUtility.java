@@ -1,21 +1,40 @@
 package utilities;
 
+// import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 // import java.time.LocalDateTime;
 // import java.time.ZoneId;
 // import java.time.format.TextStyle;
 import java.util.*;
 
+// import org.apache.velocity.app.event.ReferenceInsertionEventHandler.referenceInsertExecutor;
+
+import com.github.javafaker.Faker;
+
 public class RandomUtility {
 
+    private static final Faker faker = new Faker();
     private static final Random random = new Random();
     private static final String[] months = new String[]{"January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"};
 
-    public String generateRandomString() {
-        return UUID.randomUUID().toString().replace("-", "").substring(0, 10);
-    }
+//     public String generateRandomString() {
+//      int length = 5;   
+//     String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+//     SecureRandom random = new SecureRandom();
+//     StringBuilder sb = new StringBuilder(length);
 
+//     for (int i = 0; i < length; i++) {
+//         int index = random.nextInt(alphabet.length());
+//         sb.append(alphabet.charAt(index));
+//     }
+
+//     return sb.toString();
+// }
+    public String generateRandomString() {
+        int length = 5;
+        return faker.lorem().characters(length);
+    }
     public int generateRandomNumber(int min, int max) {
         return random.nextInt((max - min) + 1) + min;
     }
@@ -47,12 +66,10 @@ public class RandomUtility {
         return new String[]{startTime, endTime};
     }
 
-    public String generateMultipleLineContent(int lines) {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < lines; i++) {
-            builder.append(UUID.randomUUID().toString().replace("-", "").substring(0, 10)).append("\n");
-        }
-        return builder.toString();
+    public String generateMultipleLineContent() {
+        int wordCount = 5;
+        String sentence = faker.lorem().sentence(wordCount);
+        return sentence;
     }
 
     public String generateRandomEmail() {

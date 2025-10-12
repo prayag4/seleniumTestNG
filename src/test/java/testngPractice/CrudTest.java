@@ -12,8 +12,7 @@ public class CrudTest {
 
 	
 	@Test
-	public void testingCrud() {
-		
+	public void testingCrud() {	
 	WebDriverManager.chromedriver().setup();
 	ChromeOptions options = new ChromeOptions();
 	// options.addArguments("--headless"); // Headless mode
