@@ -114,8 +114,8 @@ public class CrudTest extends BaseTest {
 		//Radio button 
 		List<WebElement> radioButtons = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(radioButtonSelector));
 		for(int i=0; i<(radioButtons).size() ;i++){
-			if (radioButtons.get(i).getAttribute("value").equals("Option 1")){
-				System.out.println("testttt");
+			System.out.println(radioButtons.get(i).getAttribute("value"));
+			if (radioButtons.get(i).getAttribute("value").equals("option1")){
 				radioButtons.get(i).click();
 				break;
 			}
