@@ -35,6 +35,14 @@ public class RandomUtility {
         int length = 5;
         return faker.lorem().characters(length);
     }
+
+
+    public String generateRandomNumberss() {
+        int digit = 7;
+        String number = faker.number().digits(digit);;
+        return number;
+    }
+    
     public int generateRandomNumber(int min, int max) {
         return random.nextInt((max - min) + 1) + min;
     }
@@ -158,14 +166,11 @@ public class RandomUtility {
         return new Object[]{startArray, startFormatted, endArray, endFormatted};
     }
 
-    public String[] getRandomLatLong() {
+    public String getRandomLatLong() {
         double latitude = -90 + (90 + 90) * random.nextDouble();
         double longitude = -180 + (180 + 180) * random.nextDouble();
-
-        return new String[]{
-                String.format("%.6f", latitude),
-                String.format("%.6f", longitude)
-        };
+        String latLong = String.format("%.6f", latitude) + "," +String.format("%.6f", longitude);
+        return latLong;
     }
 
     public String generateRandomText(int length) {

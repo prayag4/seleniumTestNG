@@ -3,8 +3,12 @@ package tests;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+
 import java.time.Duration;
 import java.util.HashMap;
+import java.util.List;
+
 import org.testng.annotations.*;
 
 import common.BaseTest;
@@ -46,8 +50,14 @@ public class CrudTest extends BaseTest {
 		formData.put("singleLine", randomUtility.generateRandomString());
 		formData.put("multiLine", randomUtility.generateMultipleLineContent());
 		formData.put("editor", randomUtility.generateMultipleLineContent());
-		formData.put("number", String.valueOf(randomUtility.generateRandomNumber(1, 9)));
+		formData.put("number", randomUtility.generateRandomNumberss());
 		formData.put("email", randomUtility.generateRandomEmail());
+		formData.put("phone", randomUtility.generateFakePhoneNumber());
+		formData.put("time", randomUtility.generateRandomTime());
+		formData.put("location", randomUtility.getRandomLatLong());
+		formData.put("singleSelection", "Option 2");
+		formData.put("multiSelection1","Option 1" );
+		formData.put("multiSelection2","Option 2" );
 	}
 
 	@BeforeMethod
@@ -83,6 +93,34 @@ public class CrudTest extends BaseTest {
 
 		wait.until(ExpectedConditions.elementToBeClickable(numberSelector)).sendKeys(formData.get("number"));
 		wait.until(ExpectedConditions.elementToBeClickable(emailSelector)).sendKeys(formData.get("email"));
+
+		wait.until(ExpectedConditions.elementToBeClickable(phoneSelector)).sendKeys(formData.get("phone"));
+		wait.until(ExpectedConditions.elementToBeClickable(timePickerSelector)).sendKeys(formData.get("time"));
+		wait.until(ExpectedConditions.elementToBeClickable(locationSelector)).sendKeys(formData.get("location"));
+
+		// Single selection
+		WebElement singleSelectionDropdown = wait
+				.until(ExpectedConditions.elementToBeClickable(singleSelectionSelector));
+		Select select = new Select(singleSelectionDropdown);
+		select.selectByVisibleText(formData.get("singleSelection"));
+
+		// Multiple selection
+		WebElement multiSelectDropdown = wait
+				.until(ExpectedConditions.elementToBeClickable(multiSelectionSelector));
+		Select multiSelect = new Select(multiSelectDropdown);
+		multiSelect.selectByVisibleText(formData.get("multiSelection1"));
+		multiSelect.selectByVisibleText(formData.get("multiSelection2"));
+
+		//Radio button 
+		List<WebElement> radioButtons = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(radioButtonSelector));
+		for(int i=0; i<(radioButtons).size() ;i++){
+			if (radioButtons.get(i).getAttribute("value").equals("Option 1")){
+				System.out.println("testttt");
+				radioButtons.get(i).click();
+				break;
+			}
+		}
+
 
 	}
 }
