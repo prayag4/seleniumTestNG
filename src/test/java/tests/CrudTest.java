@@ -5,7 +5,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
+import java.io.File;
+import java.lang.reflect.Array;
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -45,7 +48,7 @@ public class CrudTest extends BaseTest {
 	By saveButtonSelector = By.cssSelector("button[type='submit']");
 
 	// create object for fields
-	HashMap<String, String> formData = new HashMap<>();
+	HashMap<String, Object> formData = new HashMap<>();
 	{
 		formData.put("singleLine", randomUtility.generateRandomString());
 		formData.put("multiLine", randomUtility.generateMultipleLineContent());
@@ -58,6 +61,7 @@ public class CrudTest extends BaseTest {
 		formData.put("singleSelection", "Option 2");
 		formData.put("multiSelection1","Option 1" );
 		formData.put("multiSelection2","Option 2" );
+		formData.put("datePicker", randomUtility.getRandomDate());
 	}
 
 	@BeforeMethod
@@ -77,39 +81,39 @@ public class CrudTest extends BaseTest {
 		WebElement singlelineElement = wait.until(ExpectedConditions.elementToBeClickable(singleLineSelector));
 		// singlelineElement.sendKeys((String)formData.get("singleLine")); // if value
 		// is Object HashMap<String, Object> formData = new HashMap<>();
-		singlelineElement.sendKeys(formData.get("singleLine")); // if value is Object HashMap<String, Object> formData =
+		singlelineElement.sendKeys((String)formData.get("singleLine")); // if value is Object HashMap<String, Object> formData =
 																// new HashMap<>();
 
 		WebElement multilineElement = wait.until(ExpectedConditions.elementToBeClickable(multiLineSelector));
-		multilineElement.sendKeys(formData.get("multiLine"));
+		multilineElement.sendKeys((String)formData.get("multiLine"));
 
 		// switch to iframe
 		WebElement iframeElement = wait.until(ExpectedConditions.elementToBeClickable(editorIframeSelector));
 		driver.switchTo().frame(iframeElement);
-		wait.until(ExpectedConditions.elementToBeClickable(editorSelector)).sendKeys(formData.get("editor"));
+		wait.until(ExpectedConditions.elementToBeClickable(editorSelector)).sendKeys((String)formData.get("editor"));
 
 		// Switch back to the main document
 		driver.switchTo().defaultContent();
 
-		wait.until(ExpectedConditions.elementToBeClickable(numberSelector)).sendKeys(formData.get("number"));
-		wait.until(ExpectedConditions.elementToBeClickable(emailSelector)).sendKeys(formData.get("email"));
+		wait.until(ExpectedConditions.elementToBeClickable(numberSelector)).sendKeys((String)formData.get("number"));
+		wait.until(ExpectedConditions.elementToBeClickable(emailSelector)).sendKeys((String)formData.get("email"));
 
-		wait.until(ExpectedConditions.elementToBeClickable(phoneSelector)).sendKeys(formData.get("phone"));
-		wait.until(ExpectedConditions.elementToBeClickable(timePickerSelector)).sendKeys(formData.get("time"));
-		wait.until(ExpectedConditions.elementToBeClickable(locationSelector)).sendKeys(formData.get("location"));
+		wait.until(ExpectedConditions.elementToBeClickable(phoneSelector)).sendKeys((String)formData.get("phone"));
+		wait.until(ExpectedConditions.elementToBeClickable(timePickerSelector)).sendKeys((String)formData.get("time"));
+		wait.until(ExpectedConditions.elementToBeClickable(locationSelector)).sendKeys((String)formData.get("location"));
 
 		// Single selection
 		WebElement singleSelectionDropdown = wait
 				.until(ExpectedConditions.elementToBeClickable(singleSelectionSelector));
 		Select select = new Select(singleSelectionDropdown);
-		select.selectByVisibleText(formData.get("singleSelection"));
+		select.selectByVisibleText((String)formData.get("singleSelection"));
 
 		// Multiple selection
 		WebElement multiSelectDropdown = wait
 				.until(ExpectedConditions.elementToBeClickable(multiSelectionSelector));
 		Select multiSelect = new Select(multiSelectDropdown);
-		multiSelect.selectByVisibleText(formData.get("multiSelection1"));
-		multiSelect.selectByVisibleText(formData.get("multiSelection2"));
+		multiSelect.selectByVisibleText((String)formData.get("multiSelection1"));
+		multiSelect.selectByVisibleText((String)formData.get("multiSelection2"));
 
 		//Radio button 
 		List<WebElement> radioButtons = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(radioButtonSelector));
@@ -120,6 +124,26 @@ public class CrudTest extends BaseTest {
 				break;
 			}
 		}
+
+		//Checkbox
+		wait.until(ExpectedConditions.elementToBeClickable(checkboxSelector)).click();
+		
+		//file-Upload
+		// System.out.println("Working dir: " + System.getProperty("user.dir"));
+		File fileUpload = new File("src/test/java/resources/test.png");
+		String absolutePath = fileUpload.getAbsolutePath();
+		wait.until(ExpectedConditions.elementToBeClickable(fileFieldSelector)).sendKeys(absolutePath);
+		
+		//Date
+		// Object[] object = (Object[]) formData.get("datePicker");
+		// System.out.println(Arrays.deepToString(object));
+		
+		wait.until(ExpectedConditions.elementToBeClickable(datePickerSelector)).click();
+		String [] daymonthyear = (String[]) ((Object[]) formData.get("datePicker"))[0];
+		String day = daymonthyear[0];
+		String month = daymonthyear[1];
+		String year = daymonthyear[2];
+		selectDate(driver, day,month,year );
 
 
 	}
