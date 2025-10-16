@@ -64,9 +64,13 @@ public class BaseTest {
     // 3. Select day
     String paddedDay = String.format("%02d", Integer.parseInt(day)); // pad with 0 if needed
     String dateLocator = String.format(
-        "div[class*='react-datepicker__day--0%s'][aria-label*='%s %d']",
-        paddedDay, month, Integer.parseInt(day)
+        "div[class*='react-datepicker__day--0%s'][aria-label*='%s %s']",
+        paddedDay, month, day
     );
+       //Above is same as below 
+    // String dateLocator = 
+    // "div[class*='react-datepicker__day--0" + paddedDay + "']" +
+    // "[aria-label*='" + month + " " + Integer.parseInt(day) + "']";
 
     WebElement dayElement = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(dateLocator)));
     dayElement.click();
