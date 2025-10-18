@@ -177,17 +177,30 @@ public class CrudTest extends BaseTest {
 			return (text != null && !text.trim().isEmpty() && epxectedSingleLineText.equals(text)) ? text : null;
 		});
 
-		softAssert.assertEquals(singleLineInTable ,epxectedSingleLineText,
+		softAssert.assertEquals(singleLineInTable, epxectedSingleLineText,
 				"Check single line value is same or not");
 
 		// verify record in Edit screen
-		driver.findElements(By.cssSelector("table tr:last-child td")).get(3).findElement(By.cssSelector(".bg-yellow-500")).click();
+		driver.findElements(By.cssSelector("table tr:last-child td")).get(3)
+				.findElement(By.cssSelector(".bg-yellow-500")).click();
 
 		String multilineValue = wait.until(driver -> {
 			String value = driver.findElement(multiLineSelector).getAttribute("value");
 			return (value != null && !value.trim().isEmpty()) ? value : null;
 		});
 		softAssert.assertEquals(multilineValue, formData.get("multiLine"), "Check multiline value right or not");
+
+		// switch to iframe
+		WebElement iframeElements = wait.until(ExpectedConditions.elementToBeClickable(editorIframeSelector));
+		driver.switchTo().frame(iframeElements);
+		String editorValue = wait.until(driver -> {
+			String value = (driver.findElement(editorSelector)).getText();
+			return (value != null && !value.trim().isEmpty()) ? value : null;
+		});
+		softAssert.assertEquals(editorValue, formData.get("editor"), "Check iframe value right or not");
+
+		// Switch back to the main document
+		driver.switchTo().defaultContent();
 
 		softAssert.assertAll();
 
