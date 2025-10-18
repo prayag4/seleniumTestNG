@@ -170,12 +170,25 @@ public class CrudTest extends BaseTest {
 		wait.until(ExpectedConditions.elementToBeClickable(saveButtonSelector)).click();
 
 		// verify the record in table
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("table tr:last-child td")));
+		String epxectedSingleLineText = (String) formData.get("singleLine");
+		String singleLineInTable = wait.until(driver -> {
+			List<WebElement> lastRowTds = driver.findElements(By.cssSelector("table tr:last-child td"));
+			String text = lastRowTds.get(1).getText();
+			return (text != null && !text.trim().isEmpty() && epxectedSingleLineText.equals(text)) ? text : null;
+		});
 
-		WebElement lastRow = driver.findElement(By.cssSelector("table tr:last-child"));
-		List<WebElement> allTds = lastRow.findElements(By.tagName("td"));
-		String singleLineInTable = allTds.get(1).getText();
-		softAssert.assertEquals(singleLineInTable,(String) formData.get("singleLine"),"Check single line value is same or not");
+		softAssert.assertEquals(singleLineInTable ,epxectedSingleLineText,
+				"Check single line value is same or not");
+
+		// verify record in Edit screen
+		driver.findElements(By.cssSelector("table tr:last-child td")).get(3).findElement(By.cssSelector(".bg-yellow-500")).click();
+
+		String multilineValue = wait.until(driver -> {
+			String value = driver.findElement(multiLineSelector).getAttribute("value");
+			return (value != null && !value.trim().isEmpty()) ? value : null;
+		});
+		softAssert.assertEquals(multilineValue, formData.get("multiLine"), "Check multiline value right or not");
+
 		softAssert.assertAll();
 
 	}
