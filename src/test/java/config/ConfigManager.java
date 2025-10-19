@@ -20,9 +20,15 @@ public class ConfigManager {
     }
 
     // Get any property by key
-    public static String get(String key) {
-        return properties.getProperty(key);
-    }
+public static String get(String key) {
+    String systemValue = System.getProperty(key);
+    if (systemValue != null) return systemValue;
+
+    String envValue = System.getenv(key.replace('.', '_').toUpperCase());
+    if (envValue != null) return envValue;
+
+    return properties.getProperty(key);
+}
 
     // Optional: get with default
     public static String get(String key, String defaultValue) {

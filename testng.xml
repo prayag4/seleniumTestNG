@@ -15,7 +15,8 @@
             <!-- <class name="testngPractice.PracticeTest"/> -->
             <!-- <class name="testngPractice.ListenerDemoTest"/> -->
             <!-- <class name="testngPractice.CrudTest"/> -->
-            <class name="tests.CrudTest"/>
+            <!-- <class name="tests.CrudTest"/> -->
+            <class name="tests.CrudPOMTest"/>
         </classes>
     </test>
 </suite>

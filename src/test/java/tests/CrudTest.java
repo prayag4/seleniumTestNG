@@ -6,9 +6,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.time.Duration;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -16,7 +14,6 @@ import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
 
 import common.BaseTest;
-import io.netty.handler.codec.http.websocketx.extensions.WebSocketExtension;
 // import io.github.bonigarcia.wdm.*;
 import utilities.RandomUtility;
 
