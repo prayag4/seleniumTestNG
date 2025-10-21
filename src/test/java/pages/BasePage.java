@@ -3,7 +3,9 @@ package pages;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.*;
 
+import java.io.File;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 
 public class BasePage {
@@ -51,6 +53,23 @@ public class BasePage {
         element.sendKeys(text);
     }
 
+    public void uploadFile(By selector, String text) {
+        File fileUpload = new File(text);
+        String absolutePath = fileUpload.getAbsolutePath();
+        sendKeysWhenReady(selector, absolutePath);
+    }
+
+    public List<String> getAllOptionValuesOfSelectDropdown(By selector) {
+        List<String> dropdownValues = new ArrayList<>();
+        WebElement dropdownElement = wait.until(ExpectedConditions.elementToBeClickable(selector));
+        Select dropdown = new Select(dropdownElement);
+        List<WebElement> options = dropdown.getOptions();
+        for (WebElement option : options) {
+            dropdownValues.add(option.getText());
+        }
+        return dropdownValues;
+    }
+
     public void selectByVisibleText(By selector, String text) {
         WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(selector));
         Select select = new Select(dropdown);
@@ -80,7 +99,7 @@ public class BasePage {
         });
     }
 
-    public String waitForTableCellText(By tableSelector, int cellIndex, String expectedText) {
+    public String waitForTableCellText(int cellIndex, String expectedText) {
         return wait.until(driver -> {
             List<WebElement> lastRowTds = driver.findElements(By.cssSelector("table tr:last-child td"));
             if (lastRowTds.size() > cellIndex) {
@@ -91,7 +110,25 @@ public class BasePage {
         });
     }
 
-    public void clickRadioByValue(By radioSelector, String valueToClick) {
+    public List<String> getAllFieldNamesInTable() {
+        List<String> fieldNames = new ArrayList<String>();
+        List<WebElement> fieldNameElements = driver.findElements(By.cssSelector("table thead tr th"));
+        for(WebElement fieldName :fieldNameElements){
+            fieldNames.add(fieldName.getText());
+        }
+        return fieldNames;
+    }
+
+    public List<String> getOptionsAttributeValue(By selector) {
+        List<String> optionElements = new ArrayList<>();
+        List<WebElement> elements = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(selector));
+        for (WebElement element : elements) {
+            optionElements.add(element.getAttribute("value"));
+        }
+        return optionElements;
+    }
+
+    public void clickByValue(By radioSelector, String valueToClick) {
         List<WebElement> radios = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(radioSelector));
         for (WebElement radio : radios) {
             if (radio.getAttribute("value").equals(valueToClick)) {
@@ -99,11 +136,6 @@ public class BasePage {
                 break;
             }
         }
-    }
-
-    public void uploadFile(By fileInputSelector, String filePath) {
-        WebElement fileInput = wait.until(ExpectedConditions.elementToBeClickable(fileInputSelector));
-        fileInput.sendKeys(filePath);
     }
 
     public void typeInput(WebElement element, String formDataValue) {
@@ -147,16 +179,15 @@ public class BasePage {
     }
 
     public void clickButtonInTableRow(String cellText, By buttonSelector) {
-    List<WebElement> rows = driver.findElements(By.cssSelector("table tr"));
-    for (WebElement row : rows) {
-        if (row.getText().contains(cellText)) {
-            WebElement button = row.findElement(buttonSelector);
-            button.click();
-            break;
+        List<WebElement> rows = driver.findElements(By.cssSelector("table tr"));
+        for (WebElement row : rows) {
+            if (row.getText().contains(cellText)) {
+                WebElement button = row.findElement(buttonSelector);
+                button.click();
+                break;
+            }
         }
     }
-}
-
 
     public WebElement findElementContainingText(By parentSelector, String partialText) {
         List<WebElement> elements = driver.findElements(parentSelector);

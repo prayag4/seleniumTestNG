@@ -34,16 +34,26 @@ public class CrudPOMTest extends BaseTest {
         formData.put("phone", randomUtility.generateFakePhoneNumber());
         formData.put("time", randomUtility.generateRandomTime());
         formData.put("location", randomUtility.getRandomLatLong());
-        formData.put("singleSelection", "Option 2");
-        formData.put("multiSelection1", "Option 1");
-        formData.put("multiSelection2", "Option 2");
+        formData.put("singleSelection", "random");
+        formData.put("multiSelection", "random");
+        formData.put("radio", "random");
+        formData.put("checkbox", "random");
         formData.put("datePicker", randomUtility.getRandomDate());
         formData.put("dateRange", randomUtility.getRandomDateRange());
+        formData.put("file","src/test/java/resources/test.png");
     }
 
     @Test(description = "Verify record can be added")
     public void testingCrud() {
         listingPage.gotoListingPage();
         listingPage.clickOnAddButton();
+
+        formPage.fillForm(formData);
+        formPage.saveRecord();
+
+        String singleLineText = listingPage.getLatestTableValue("Single Line",(String)formData.get("singleLine"));
+        System.out.print(singleLineText+" singleLineText");
+        softAssert.assertEquals(singleLineText, (String)formData.get("singleLine"),"verfiy single line value is expected or not");
+        softAssert.assertAll();
     }
 }

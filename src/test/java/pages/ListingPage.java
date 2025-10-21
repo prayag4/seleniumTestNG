@@ -1,5 +1,7 @@
 package pages;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -19,6 +21,16 @@ public class ListingPage extends BasePage{
 
     public void clickOnAddButton(){
         clickWhenClickable(addButton);
+    }
+
+    public String getLatestTableValue(String fieldName , String fieldValue){
+        List<String> fieldNames = getAllFieldNamesInTable();
+        if(fieldNames.contains(fieldName)){
+            int indexOfField = fieldNames.indexOf(fieldName);
+            String text = waitForTableCellText(indexOfField, fieldValue);
+            return text;
+        }
+        return "No data";
     }
 
     
