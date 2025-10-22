@@ -51,8 +51,8 @@ public class CrudPOMTest extends BaseTest {
         formPage.fillForm(formData);
         formPage.saveRecord();
 
+        //verify record
         String singleLineText = listingPage.getLatestTableValue("Single Line",(String)formData.get("singleLine"));
-        System.out.print(singleLineText+" singleLineText");
         softAssert.assertEquals(singleLineText, (String)formData.get("singleLine"),"verfiy single line value is expected or not");
         softAssert.assertAll();
 
