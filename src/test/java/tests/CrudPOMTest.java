@@ -55,5 +55,9 @@ public class CrudPOMTest extends BaseTest {
         System.out.print(singleLineText+" singleLineText");
         softAssert.assertEquals(singleLineText, (String)formData.get("singleLine"),"verfiy single line value is expected or not");
         softAssert.assertAll();
+
+        listingPage.clickOnDeleteButtonButton(singleLineText);
+        listingPage.waitMilliseconds(5000);
+        listingPage.rejectConfirmDialog();
     }
 }

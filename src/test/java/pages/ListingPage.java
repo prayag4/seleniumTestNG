@@ -1,5 +1,6 @@
 package pages;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -8,6 +9,7 @@ import org.openqa.selenium.WebDriver;
 public class ListingPage extends BasePage{
     private String listingURL = baseURL + "records";
     private final By addButton = By.className("bg-green-500");
+    private final By deleteButton = By.xpath("//*[contains(text(),'Delete')]");
 
 
     //constructor
@@ -32,6 +34,10 @@ public class ListingPage extends BasePage{
         }
         return "No data";
     }
+
+    public void clickOnDeleteButtonButton(String text){
+        clickButtonInTableRow(text,deleteButton);
+    }    
 
     
 }
