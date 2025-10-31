@@ -18,6 +18,7 @@ import common.BaseTest;
 import utilities.RandomUtility;
 
 // command - mvn test -DsuiteXmlFile=testng.xml -DbaseURL=url
+// mvn test -DsuiteXmlFile=testng.xml -DbaseURL="https://crud-mvp-frontend.onrender.com/"
 public class CrudTest extends BaseTest {
 
 	String baseURL = System.getProperty("baseURL");

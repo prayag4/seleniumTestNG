@@ -20,7 +20,7 @@ public class BasePage {
     }
 
     public void goTo(String url) {
-        driver.get(url);
+        this.driver.get(url);
     }
 
     public WebElement findElement(By selector) {
